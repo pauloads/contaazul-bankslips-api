@@ -42,7 +42,7 @@ public class BankSlip implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private BankSlipStatus status;
 
     public UUID getId() {
         return id;
@@ -84,11 +84,11 @@ public class BankSlip implements Serializable {
         this.fine = fine;
     }
 
-    public Status getStatus() {
+    public BankSlipStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(BankSlipStatus status) {
         this.status = status;
     }
 

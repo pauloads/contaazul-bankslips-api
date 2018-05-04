@@ -4,7 +4,7 @@ package com.contaazul.bankslips.model;
  *
  * @author Paulo
  */
-public enum Status {
+public enum BankSlipStatus {
 
     PAID,
     PENDING,
