@@ -3,7 +3,6 @@ package com.contaazul.bankslips.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -23,7 +22,7 @@ import javax.validation.constraints.NotNull;
 public class BankSlip implements Serializable {
 
     @Id
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @NotNull
     @JsonProperty("due_date")
@@ -43,6 +42,19 @@ public class BankSlip implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private BankSlipStatus status;
+
+    
+    
+    public BankSlip() {
+        this.id = UUID.randomUUID();
+    }
+
+    public BankSlip(UUID id, LocalDate dueDate, Long totalInCents, String customer) {
+        this.id = id;
+        this.dueDate = dueDate;
+        this.totalInCents = totalInCents;
+        this.customer = customer;
+    }
 
     public UUID getId() {
         return id;
@@ -117,17 +129,19 @@ public class BankSlip implements Serializable {
         return true;
     }
 
-    /**
-     * Multa: ate 10 dias 0,5% ao dia, acima de 10 dias 1% ao dia
-     */
+    //TODO: refactor
     public void calculateFine() {
 
-//        LocalDate now = LocalDate.now();
-//        long days = ChronoUnit.DAYS.between(this.dueDate, now); //negative if the end is before the start
-//        fine = 0L;
-//        if(days > 0 && days <= 10){ // ta vencido
-//            fine = (this.totalInCents * 0.1) * days;
-//        }
+        LocalDate now = LocalDate.now();
+        long days = ChronoUnit.DAYS.between(this.dueDate, now); //negative if the end is before the start
+        fine = 0L;
+        if(days > 0 && days <= 10){
+            double finePerDay = this.totalInCents * 0.005;
+            fine = (long) finePerDay * days;
+        } else if(days > 0 && days > 10){
+            double finePerDay = this.totalInCents * 0.01;
+            fine = (long) finePerDay * days;
+        }
     }
 
 }
