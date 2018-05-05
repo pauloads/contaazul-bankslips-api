@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @author Paulo
  */
 @Repository
-public interface BankSlipRepository extends JpaRepository<BankSlip, UUID>{
+public interface BankSlipRepository extends JpaRepository<BankSlip, String>{
     
     @Query("select new com.contaazul.bankslips.model.BankSlip(b.id, b.dueDate, b.totalInCents, b.customer) from BankSlip b")
     List<BankSlip> getAllWithoutDetails();

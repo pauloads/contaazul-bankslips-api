@@ -1,14 +1,15 @@
 package com.contaazul.bankslips.controller;
 
 import com.contaazul.bankslips.model.BankSlip;
-import com.contaazul.bankslips.model.Messages;
 import static com.contaazul.bankslips.model.Messages.BANKSLIP_CANCELED;
 import static com.contaazul.bankslips.model.Messages.BANKSLIP_PAID;
+import static com.contaazul.bankslips.model.Messages.BANKSLIP_CREATED;
 import com.contaazul.bankslips.service.BankSlipService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,9 +35,9 @@ public class BankSlipController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody BankSlip bankSlip) {
+    public ResponseEntity<String> create(@RequestBody BankSlip bankSlip) {
         service.create(bankSlip);
-        return new ResponseEntity(Messages.BANKSLIP_CREATED.getMessage(), HttpStatus.CREATED);
+        return new ResponseEntity(BANKSLIP_CREATED.getMessage(), CREATED);
     }
 
     @GetMapping
@@ -48,21 +49,21 @@ public class BankSlipController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<BankSlip> getDetails(@PathVariable("id") UUID id) {
+    public ResponseEntity<BankSlip> getDetails(@PathVariable("id") String id) {
         BankSlip detailedBankSlip = service.getDetails(id);
         return new ResponseEntity<>(detailedBankSlip, OK);
     }
 
     @PutMapping("/{id}/pay")
     @ResponseBody
-    public ResponseEntity<String> pay(@PathVariable("id") UUID id) {
+    public ResponseEntity<String> pay(@PathVariable("id") String id) {
         service.pay(id);
         return new ResponseEntity<>(BANKSLIP_PAID.getMessage(), OK);
     }
 
     @DeleteMapping("/{id}/cancel")
     @ResponseBody
-    public ResponseEntity<String> cancel(@PathVariable("id") UUID id) {
+    public ResponseEntity<String> cancel(@PathVariable("id") String id) {
         service.cancel(id);
         return new ResponseEntity<>(BANKSLIP_CANCELED.getMessage(), OK);
     }

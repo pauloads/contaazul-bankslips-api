@@ -8,7 +8,7 @@ public enum Messages {
 
     BANKSLIP_CREATED("Bankslip created"),
     BANKSLIP_NOT_PROVIDED("Bankslip not provided in the request body"),
-    INVALID_BANKSLIP_PROVIDED("Invalid bankslip provided.The possible reasons are: A field of the provided bankslip was null or with invalid values"),
+    INVALID_BANKSLIP_PROVIDED("Invalid bankslip provided."),
     INVALID_ID_PROVIDED("Invalid id provided - it must be a valid UUID"),
     BANKSLIP_NOT_FOUND("Bankslip not found with the specified id"),
     BANKSLIP_PAID("Bankslip paid"),

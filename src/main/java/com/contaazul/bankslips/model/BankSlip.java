@@ -12,7 +12,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 /**
  *
@@ -22,18 +25,21 @@ import javax.validation.constraints.NotNull;
 public class BankSlip implements Serializable {
 
     @Id
-    private UUID id;
+    private String id;
 
     @NotNull
+    @FutureOrPresent
     @JsonProperty("due_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
 
     @NotNull
+    @Positive
     @JsonProperty("total_in_cents")
     private Long totalInCents;
 
     @NotNull
+    @NotEmpty
     private String customer;
 
     @Transient
@@ -46,21 +52,21 @@ public class BankSlip implements Serializable {
     
     
     public BankSlip() {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
     }
 
-    public BankSlip(UUID id, LocalDate dueDate, Long totalInCents, String customer) {
+    public BankSlip(String id, LocalDate dueDate, Long totalInCents, String customer) {
         this.id = id;
         this.dueDate = dueDate;
         this.totalInCents = totalInCents;
         this.customer = customer;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
