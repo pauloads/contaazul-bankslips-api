@@ -38,3 +38,5 @@ ser consumido pela própria API. Todos os campos são obrigatórios.
 	"status":"PENDING"
 }
 ```
+
+![](https://github.com/pauloads/contaazul-bankslips-api/blob/dev/readme_files/create.PNG?raw=true)
