@@ -137,3 +137,5 @@ com o id.
 #### Mensagens de resposta
 - 200 : Bankslip canceled
 - 404 : Bankslip not found with the specified id
+
+## Dúvidas e comentários: paulocorrea.ads@gmail.com
