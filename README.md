@@ -40,3 +40,10 @@ ser consumido pela própria API. Todos os campos são obrigatórios.
 ```
 
 ![](https://github.com/pauloads/contaazul-bankslips-api/blob/dev/readme_files/create.PNG?raw=true)
+
+#### Mensagens de resposta
+
+- 201 : Bankslip created
+- 400 : Bankslip not provided in the request body
+- 422 : Invalid bankslip provided.The possible reasons are:
+	- A field of the provided bankslip was null or with invalid values
