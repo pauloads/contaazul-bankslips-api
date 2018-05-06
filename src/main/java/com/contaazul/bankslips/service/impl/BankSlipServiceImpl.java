@@ -22,13 +22,13 @@ import org.springframework.stereotype.Service;
  * @author Paulo
  */
 @Service
-public class BankSlipServiceImpl implements BankSlipService{
+public class BankSlipServiceImpl implements BankSlipService {
 
     @Autowired
     private BankSlipRepository repository;
 
     private BankslipValidator validator = new BankslipValidator();
-    
+
     @Override
     public void create(BankSlip bankSlip) {
         validator.validate(bankSlip);
@@ -39,34 +39,37 @@ public class BankSlipServiceImpl implements BankSlipService{
     public List<BankSlip> listAll() {
         return repository.getAllWithoutDetails();
     }
-    
+
     @Override
-    public BankSlip getDetails(String id){
-        BankSlip detailedBankslip;
-        try{
-            UUID.fromString(id);
-            detailedBankslip = repository.findById(id).get();
-        }catch(IllegalArgumentException ex){
-            throw new InvalidUUIDException(INVALID_ID_PROVIDED.getMessage());
-        }catch(NoSuchElementException ex){
-            throw new BankskipNotFoundException(BANKSLIP_NOT_FOUND.getMessage());
-        }
+    public BankSlip getDetails(String id) {
+        BankSlip detailedBankslip = findBankslipById(id);
         detailedBankslip.calculateFine();
         return detailedBankslip;
     }
 
     @Override
     public void pay(String id) {
-        BankSlip paidBankslip = repository.findById(id).get(); 
+        BankSlip paidBankslip = findBankslipById(id);
         paidBankslip.setStatus(PAID);
         repository.save(paidBankslip);
     }
 
     @Override
     public void cancel(String id) {
-        BankSlip canceledbankslip = repository.findById(id).get();
+        BankSlip canceledbankslip = findBankslipById(id);
         canceledbankslip.setStatus(CANCELED);
         repository.save(canceledbankslip);
+    }
+
+    private BankSlip findBankslipById(String id) {
+        try {
+            UUID.fromString(id);
+            return repository.findById(id).get();
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidUUIDException(INVALID_ID_PROVIDED.getMessage());
+        } catch (NoSuchElementException ex) {
+            throw new BankskipNotFoundException(BANKSLIP_NOT_FOUND.getMessage());
+        }
     }
 
 }

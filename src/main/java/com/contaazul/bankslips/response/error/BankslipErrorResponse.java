@@ -1,4 +1,4 @@
-package com.contaazul.bankslips.error;
+package com.contaazul.bankslips.response.error;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Paulo
  */
-public class ApiError {
+public class BankslipErrorResponse {
 
     private Integer status;
 
@@ -14,17 +14,17 @@ public class ApiError {
 
     private String message;
 
-    public ApiError withStatus(Integer status) {
+    public BankslipErrorResponse withStatus(Integer status) {
         this.status = status;
         return this;
     }
 
-    public ApiError withError(String error) {
+    public BankslipErrorResponse withError(String error) {
         this.error = error;
         return this;
     }
 
-    public ApiError withMessage(String message) {
+    public BankslipErrorResponse withMessage(String message) {
         this.message = message;
         return this;
     }

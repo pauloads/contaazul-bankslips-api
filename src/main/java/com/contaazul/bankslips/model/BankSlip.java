@@ -49,8 +49,6 @@ public class BankSlip implements Serializable {
     @Enumerated(EnumType.STRING)
     private BankSlipStatus status;
 
-    
-    
     public BankSlip() {
         this.id = UUID.randomUUID().toString();
     }
@@ -135,19 +133,30 @@ public class BankSlip implements Serializable {
         return true;
     }
 
-    //TODO: refactor
     public void calculateFine() {
 
-        LocalDate now = LocalDate.now();
-        long days = ChronoUnit.DAYS.between(this.dueDate, now); //negative if the end is before the start
-        fine = 0L;
-        if(days > 0 && days <= 10){
-            double finePerDay = this.totalInCents * 0.005;
-            fine = (long) finePerDay * days;
-        } else if(days > 0 && days > 10){
-            double finePerDay = this.totalInCents * 0.01;
-            fine = (long) finePerDay * days;
+        double finePerDay = 0;
+
+        if (isExpiredMoreThanTenDaysAgo()) {
+            finePerDay = this.totalInCents * 0.01;
+        } else if (isExpiredLessThanTenDaysAgo()) {
+            finePerDay = this.totalInCents * 0.005;
         }
+        fine = (long) finePerDay * getDifferenceBetweenDueDateAndNow();
+    }
+
+    private boolean isExpiredMoreThanTenDaysAgo() {
+        long days = getDifferenceBetweenDueDateAndNow();
+        return days > 0 && days > 10;
+    }
+
+    private boolean isExpiredLessThanTenDaysAgo() {
+        long days = getDifferenceBetweenDueDateAndNow();
+        return days > 0 && days <= 10;
+    }
+
+    private long getDifferenceBetweenDueDateAndNow() {
+        return ChronoUnit.DAYS.between(this.dueDate, LocalDate.now()); //negative if the end is before the start
     }
 
 }

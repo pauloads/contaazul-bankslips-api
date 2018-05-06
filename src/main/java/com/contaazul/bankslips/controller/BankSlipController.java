@@ -2,12 +2,11 @@ package com.contaazul.bankslips.controller;
 
 import com.contaazul.bankslips.model.BankSlip;
 import static com.contaazul.bankslips.model.Messages.BANKSLIP_CANCELED;
-import static com.contaazul.bankslips.model.Messages.BANKSLIP_PAID;
 import static com.contaazul.bankslips.model.Messages.BANKSLIP_CREATED;
+import static com.contaazul.bankslips.model.Messages.BANKSLIP_PAID;
+import com.contaazul.bankslips.response.Response;
 import com.contaazul.bankslips.service.BankSlipService;
 import java.util.List;
-import java.util.UUID;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -37,7 +36,7 @@ public class BankSlipController {
     @ResponseBody
     public ResponseEntity<String> create(@RequestBody BankSlip bankSlip) {
         service.create(bankSlip);
-        return new ResponseEntity(BANKSLIP_CREATED.getMessage(), CREATED);
+        return new ResponseEntity(new Response().withMessage(BANKSLIP_CREATED.getMessage()), CREATED);
     }
 
     @GetMapping
@@ -56,15 +55,15 @@ public class BankSlipController {
 
     @PutMapping("/{id}/pay")
     @ResponseBody
-    public ResponseEntity<String> pay(@PathVariable("id") String id) {
+    public ResponseEntity<?> pay(@PathVariable("id") String id) {
         service.pay(id);
-        return new ResponseEntity<>(BANKSLIP_PAID.getMessage(), OK);
+        return new ResponseEntity<>(new Response().withMessage(BANKSLIP_PAID.getMessage()), OK);
     }
 
     @DeleteMapping("/{id}/cancel")
     @ResponseBody
-    public ResponseEntity<String> cancel(@PathVariable("id") String id) {
+    public ResponseEntity<?> cancel(@PathVariable("id") String id) {
         service.cancel(id);
-        return new ResponseEntity<>(BANKSLIP_CANCELED.getMessage(), OK);
+        return new ResponseEntity<>(new Response().withMessage(BANKSLIP_CANCELED.getMessage()), OK);
     }
 }

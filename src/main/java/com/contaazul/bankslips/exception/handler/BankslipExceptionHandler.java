@@ -1,6 +1,6 @@
 package com.contaazul.bankslips.exception.handler;
 
-import com.contaazul.bankslips.error.ApiError;
+import com.contaazul.bankslips.response.error.BankslipErrorResponse;
 import com.contaazul.bankslips.exception.BankskipNotFoundException;
 import com.contaazul.bankslips.exception.InvalidBankslipException;
 import com.contaazul.bankslips.exception.InvalidUUIDException;
@@ -25,7 +25,7 @@ public class BankslipExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
 
-        ApiError error = new ApiError()
+        BankslipErrorResponse error = new BankslipErrorResponse()
                 .withStatus(BAD_REQUEST.value())
                 .withError(Messages.BANKSLIP_NOT_PROVIDED.getMessage());
 
@@ -34,7 +34,7 @@ public class BankslipExceptionHandler {
 
     @ExceptionHandler(InvalidBankslipException.class)
     public ResponseEntity<?> handleInvalidBankslipException(InvalidBankslipException ex) {
-        ApiError error = new ApiError()
+        BankslipErrorResponse error = new BankslipErrorResponse()
                 .withStatus(UNPROCESSABLE_ENTITY.value())
                 .withError(ex.getMessage())
                 .withMessage("A field of the provided bankslip was null or with invalid values");
@@ -44,7 +44,7 @@ public class BankslipExceptionHandler {
 
     @ExceptionHandler(InvalidUUIDException.class)
     public ResponseEntity<?> handleInvalidUUIDException(InvalidUUIDException ex) {
-        ApiError error = new ApiError()
+        BankslipErrorResponse error = new BankslipErrorResponse()
                 .withStatus(BAD_REQUEST.value())
                 .withError(ex.getMessage());
 
@@ -53,7 +53,7 @@ public class BankslipExceptionHandler {
 
     @ExceptionHandler(BankskipNotFoundException.class)
     public ResponseEntity<?> handleBankskipNotFoundException(BankskipNotFoundException ex) {
-        ApiError error = new ApiError()
+        BankslipErrorResponse error = new BankslipErrorResponse()
                 .withStatus(NOT_FOUND.value())
                 .withError(ex.getMessage());
 
